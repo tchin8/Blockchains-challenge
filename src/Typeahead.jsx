@@ -19,13 +19,13 @@ class Typeahead extends React.Component {
     const { input } = this.state;
 
     let colorsList = null;
-    if (input.length > 0 && input.split("").every(char => char !== ' ')) {
-      let search = input;
+    if (input.length > 0 && input.split("").some(char => char !== ' ')) {
+      let search = input.toLowerCase();
       while (search.startsWith(' ')) {
         search = search.slice(1);
       }
 
-      colorsList = list.filter(l => (l.toLowerCase()).startsWith(input.toLowerCase())).map((l, i) => {
+      colorsList = list.filter(l => (l.toLowerCase()).startsWith(search)).map((l, i) => {
         return (
           <li key={i}>{l}</li>
         )
@@ -33,12 +33,17 @@ class Typeahead extends React.Component {
     }
 
     return (
-      <section>
-        <h1>Start typing for colors to auto-generate!</h1>
-        <input type="text" value={input} onChange={this.update('input')}/>
-        <ul>
-          {colorsList}
-        </ul>
+      <section className='container'>
+        <div className='main'>
+          <span className='title'>Welcome to Color Finder!</span>
+          <input type="text" 
+            placeholder="Begin typing for colors to populate below..."
+            value={input} 
+            onChange={this.update('input')}/>
+          <ul>
+            {colorsList}
+          </ul>
+        </div>
       </section>
     )
   }

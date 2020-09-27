@@ -1,0 +1,35 @@
+section.container {
+  background-color: orange;
+  border: 2px solid black;
+  border-radius: 10px;
+  color: black;
+  font-family: Orbitron;
+  font-size: 28px;
+  font-weight: 900;
+  margin: auto;
+  margin-top: 50px;
+  width: 450px;
+}
+
+div.main {
+  margin: 20px 20px 20px 30px;
+}
+
+span.title {
+  display: block;
+  padding: 10px 0;
+}
+
+input {
+  border: none;
+  border-radius: 6px;
+  font-family: Orbitron;
+  height: 30px;
+  margin-bottom: 20px;
+  padding-left: 10px;
+  width: 378px;
+}
+
+input::placeholder {
+  font-family: Orbitron;
+}
