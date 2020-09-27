@@ -19,11 +19,12 @@ time, mark, audio, video {
 	vertical-align: baseline;
 }
 
+
 ul, li {
 	list-style: none;
 }
 
 
-button:focus, input:focus, textarea:focus {
+button:focus, input:focus, textarea:focus, li:focus {
 	outline: 0;
 }
