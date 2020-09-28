@@ -24,9 +24,11 @@ class Typeahead extends React.Component {
               backgroundColor: li.getAttribute('id').toLowerCase(),
               input: li.getAttribute('id'),
             });
+            let input = document.getElementsByTagName('input');
+            input[0].focus();
           }
         }
-      } else if (e.key === 'Tab' && !that.props.list.some(l => l === that.state.input)) {
+      } else if (e.key === 'Tab' && that.list.length) {
         if (document.activeElement === document.getElementsByTagName('input')[0] && that.list.length) {
           let liColors = document.getElementsByClassName('each-color');
           setTimeout(() => liColors[0].focus(), 1);
