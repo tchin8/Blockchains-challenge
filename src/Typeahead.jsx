@@ -144,6 +144,18 @@ class Typeahead extends React.Component {
         <div className="container">
           <div className="main">
             <span className="title">Welcome to Color Finder!</span>
+            <div className="instructions">
+              <span>Instructions</span>
+              <span className="mouse">
+                with mouse: click to select your color
+              </span>
+              <span className="keyboard">
+                with keyboard: use <span>tab</span> and <span>shift+tab</span>
+              </span>
+              <span className="keyboard-row-2">
+                use <span>enter</span> to select
+              </span>
+            </div>
             <input
               type="text"
               placeholder="Begin typing to find a color..."
@@ -155,9 +167,7 @@ class Typeahead extends React.Component {
               onChange={this.update("input")}
             />
             {colorsList && !hideList ? (
-              <ul className="colors-list">
-                {colorsList}
-              </ul>
+              <ul className="colors-list">{colorsList}</ul>
             ) : null}
             {errorMsg}
           </div>
