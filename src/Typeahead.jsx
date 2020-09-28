@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 class Typeahead extends React.Component {
   constructor(props) {
-    super(props);   // why is super crossed out? deprecated API?
+    super(props);
     this.state = {
       input: '',
       backgroundColor: 'white',
@@ -16,16 +16,20 @@ class Typeahead extends React.Component {
     this.handleFocus = this.handleFocus.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
+  // event listeners for tab, enter, escape, and click
   componentDidMount() {
     document.addEventListener('keydown', this.handleKeyDown);
     document.addEventListener('mousedown', this.handleClickOutside);
+    document.addEventListener('mouseup', this.handleClick);
   }
 
   handleKeyDown(e) {
     let inputEle = document.getElementsByTagName("input")[0];
     let liColorsEle = document.getElementsByClassName("each-color");
+
     if (e.key === "Enter") {
       for (let i = 0; i < liColorsEle.length; i++) {
         let li = liColorsEle[i];
@@ -56,6 +60,23 @@ class Typeahead extends React.Component {
       !liColorsEle.some(l => l === document.activeElement)
     ) {
       this.setState({ hideList: true });
+    } 
+  }
+  
+  handleClick() {
+    let liColorsEle = Array.from(document.getElementsByClassName("each-color"))
+    if (liColorsEle.some((l) => l === document.activeElement)) {
+      for (let i = 0; i < liColorsEle.length; i++) {
+        let li = liColorsEle[i];
+        if (document.activeElement === li) {
+          this.setState({
+            backgroundColor: li.getAttribute("id").toLowerCase(),
+            input: li.getAttribute("id"),
+          });
+          document.getElementsByTagName("input")[0].focus();
+          break;
+        }
+      }
     }
   }
 
