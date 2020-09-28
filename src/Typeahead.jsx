@@ -52,7 +52,7 @@ class Typeahead extends React.Component {
     let inputEle = document.getElementsByTagName("input")[0];
     let liColorsEle = Array.from(document.getElementsByClassName("each-color"));
     if (
-      document.activeElement !== inputEle || 
+      document.activeElement !== inputEle && 
       !liColorsEle.some(l => l === document.activeElement)
     ) {
       this.setState({ hideList: true });
