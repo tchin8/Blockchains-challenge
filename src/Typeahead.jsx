@@ -20,15 +20,18 @@ class Typeahead extends React.Component {
         for (let i = 0; i < liColors.length; i++) {
           let li = liColors[i];
           if (document.activeElement === li) {
-            that.setState({ backgroundColor: li.getAttribute('id')});
+            that.setState({ 
+              backgroundColor: li.getAttribute('id').toLowerCase(),
+              input: li.getAttribute('id'),
+            });
           }
         }
-      } else if (e.key === 'Tab') {
-        if (document.activeElement === document.getElementsByTagName('input')[0]) {
+      } else if (e.key === 'Tab' && !that.props.list.some(l => l === that.state.input)) {
+        if (document.activeElement === document.getElementsByTagName('input')[0] && that.list.length) {
           let liColors = document.getElementsByClassName('each-color');
           liColors[0].focus();
         }
-      }
+      } 
     });
   }
 
@@ -43,7 +46,7 @@ class Typeahead extends React.Component {
     const { input, backgroundColor } = this.state;
 
     let colorsList = null, errorMsg = null;
-    if (input.length > 0 && input.split("").some(char => char !== ' ')) {
+    if (input.length > 0 && input.split("").some(char => char !== ' ') && !list.some(l => l === input)) {
       let search = input.toLowerCase();
       while (search.startsWith(' ')) {
         search = search.slice(1);
@@ -54,7 +57,7 @@ class Typeahead extends React.Component {
         let bold = l.slice(0, search.length);
         let normal = l.slice(search.length);
         return (
-          <li key={i} className='each-color' tabIndex='1' id={l.toLowerCase()}>
+          <li key={i} className='each-color' tabIndex='1' id={l}>
             <span className='bold'>{bold}</span>
             <span className='normal'>{normal}</span>
           </li>
