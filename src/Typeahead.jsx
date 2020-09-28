@@ -63,9 +63,11 @@ class Typeahead extends React.Component {
     } 
   }
   
-  handleClick() {
+  handleClick(e) {
     let liColorsEle = Array.from(document.getElementsByClassName("each-color"))
-    if (liColorsEle.some((l) => l === document.activeElement)) {
+    if (e.target === document.getElementsByClassName('background')[0]) {
+      this.setState({ hideList: true });
+    } else if (liColorsEle.some((l) => l === document.activeElement)) {
       for (let i = 0; i < liColorsEle.length; i++) {
         let li = liColorsEle[i];
         if (document.activeElement === li) {
