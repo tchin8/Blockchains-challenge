@@ -29,10 +29,11 @@ class Typeahead extends React.Component {
       } else if (e.key === 'Tab' && !that.props.list.some(l => l === that.state.input)) {
         if (document.activeElement === document.getElementsByTagName('input')[0] && that.list.length) {
           let liColors = document.getElementsByClassName('each-color');
-          liColors[0].focus();
+          setTimeout(() => liColors[0].focus(), 1);
         }
-      } 
+      }
     });
+    
   }
 
   update(field) {
@@ -57,7 +58,7 @@ class Typeahead extends React.Component {
         let bold = l.slice(0, search.length);
         let normal = l.slice(search.length);
         return (
-          <li key={i} className='each-color' tabIndex='1' id={l}>
+          <li key={i} className='each-color' tabIndex='0' id={l}>
             <span className='bold'>{bold}</span>
             <span className='normal'>{normal}</span>
           </li>
