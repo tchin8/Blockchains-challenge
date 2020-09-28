@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types";
 
 class Typeahead extends React.Component {
   constructor(props) {
@@ -6,9 +7,13 @@ class Typeahead extends React.Component {
     this.state = {
       input: '',
       backgroundColor: 'white',
+      hideList: false,
     }
 
     this.list = [];
+
+    this.filterColors = this.filterColors.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
   }
 
   componentDidMount() {
@@ -36,10 +41,11 @@ class Typeahead extends React.Component {
         }
       } else if (e.key === 'Escape') {
         document.activeElement.blur();
-        that.list = [];
+        that.setState({ hideList: true })
       }
     });
     
+    // document.addEventListener('')
   }
 
   update(field) {
@@ -48,35 +54,57 @@ class Typeahead extends React.Component {
     )
   }
 
-  render() {
+  filterColors() {
     const { list } = this.props;
-    const { input, backgroundColor } = this.state;
-
+    const { input } = this.state;
+    
     let colorsList = null, errorMsg = null;
-    if (input.length > 0 && input.split("").some(char => char !== ' ') && !list.some(l => l === input)) {
+    if (
+      input.length > 0 &&
+      input.split("").some((char) => char !== " ") &&
+      !list.some((l) => l === input)
+    ) {
       let search = input.toLowerCase();
-      while (search.startsWith(' ')) {
+      while (search.startsWith(" ")) {
         search = search.slice(1);
       }
 
-      this.list = list.filter(l => (l.toLowerCase()).startsWith(search));
+      this.list = list.filter((l) => l.toLowerCase().startsWith(search));
       colorsList = this.list.map((l, i) => {
         let bold = l.slice(0, search.length);
         let normal = l.slice(search.length);
         return (
-          <li key={i} className='each-color' tabIndex='0' id={l}>
-            <span className='bold'>{bold}</span>
-            <span className='normal'>{normal}</span>
+          <li key={i} className="each-color" tabIndex="0" id={l}>
+            <span className="bold">{bold}</span>
+            <span className="normal">{normal}</span>
           </li>
-        )
-      })
+        );
+      });
 
       if (!colorsList.length) {
         errorMsg = (
-          <span className='error'>Oops! Looks like there are no colors that start with those letters. Please try again. </span>
-        )
+          <span className="error">
+            Oops! Looks like there are no colors that start with those letters.
+            Please try again.{" "}
+          </span>
+        );
       }
     }
+
+    return [colorsList, errorMsg];
+  }
+
+  handleFocus() {
+    const input = document.getElementsByTagName('input')[0];
+    if (input === document.activeElement) {
+      this.setState({ hideList: false });
+    }
+  }
+
+  render() {
+    const { input, backgroundColor, hideList } = this.state;
+
+    let [colorsList, errorMsg] = this.filterColors();
 
     return (
       <section className='background' style={{ backgroundColor: backgroundColor }}>
@@ -86,9 +114,10 @@ class Typeahead extends React.Component {
             <input type="text" 
               placeholder="Begin typing to find a color..."
               value={input} 
-              className={colorsList && colorsList.length ? 'show-list' : ''}
+              className={colorsList && colorsList.length && !hideList ? 'show-list' : ''}
+              onFocus={this.handleFocus}
               onChange={this.update('input')}/>
-            {colorsList ? 
+            {colorsList && !hideList ? 
               <ul className='colors-list'>
                 {colorsList}
               </ul> : null
@@ -100,5 +129,9 @@ class Typeahead extends React.Component {
     )
   }
 }
+
+Typeahead.propTypes = {
+  list: PropTypes.array,
+};
 
 export default Typeahead;
