@@ -66,6 +66,10 @@ ul.colors-list {
   align-items: flex-end;
 }
 
+ul.colors-list.hidden {
+  display: none;
+}
+
 li {
   font-family: Open Sans;
   font-size: 20px;

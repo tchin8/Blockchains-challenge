@@ -26,6 +26,7 @@ class Typeahead extends React.Component {
             });
             let input = document.getElementsByTagName('input');
             input[0].focus();
+            break;
           }
         }
       } else if (e.key === 'Tab' && that.list.length) {
@@ -33,6 +34,9 @@ class Typeahead extends React.Component {
           let liColors = document.getElementsByClassName('each-color');
           setTimeout(() => liColors[0].focus(), 1);
         }
+      } else if (e.key === 'Escape') {
+        document.activeElement.blur();
+        that.list = [];
       }
     });
     
